@@ -128,32 +128,32 @@
         </div>
       </div> -->
         <div class="row">
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-3 col-6"  *ngFor="let products of productList">
                 <div class="product">
                     <div class="product-wrap">
                         <a routerLink="/product-single"><img class="img-fluid w-100 mb-3 img-first"
-                                src="assets/images/CosmeticProduct-1.webp" alt="product-img" /></a>
+                                src="{{products.image}}" alt="product-img" /></a>
                         <a routerLink="/product-single"><img class="img-fluid w-100 mb-3 img-second"
-                                src="assets/images/CosmeticProduct-1.webp" alt="product-img" /></a>
+                                src="{{products.image}}" alt="product-img" /></a>
                     </div>
 
-                    <span class="onsale">Sale</span>
+                    <span class="onsale" *ngIf="products.sale == true">Sale</span>
                     <div class="product-hover-overlay">
                         <a href="#"><i class="tf-ion-android-cart"></i></a>
                         <a href="#"><i class="tf-ion-ios-heart"></i></a>
                     </div>
 
                     <div class="product-info">
-                        <h2 class="product-title h5 mb-0"><a routerLink="/product-single">ULTRA DEFINING GEL Strong Hold
-                                No-Crunch Stylert</a></h2>
+                        <h2 class="product-title h5 mb-0"><a routerLink="/product-single">{{products.brand_name}}</a></h2>
+                        <p class="product-title"><a routerLink="/product-single">{{products.product_name}}</a></p>
                         <span class="price">
-                            $32.00
+                            {{products.price}}
                         </span>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-3 col-6">
+            <!-- <div class="col-lg-3 col-6">
                 <div class="product">
                     <div class="product-wrap">
                         <a routerLink="/product-single"><img class="img-fluid w-100 mb-3 img-first"
@@ -162,7 +162,6 @@
                                 src="assets/images/CosmeticProduct-2.webp" alt="product-img" /></a>
                     </div>
 
-                    <!-- <span class="onsale">Sale</span> -->
                     <div class="product-hover-overlay">
                         <a href="#"><i class="tf-ion-android-cart"></i></a>
                         <a href="#"><i class="tf-ion-ios-heart"></i></a>
@@ -188,7 +187,6 @@
                                 src="assets/images/CosmeticProduct-3.webp" alt="product-img" /></a>
                     </div>
 
-                    <!-- <span class="onsale">Sale</span> -->
                     <div class="product-hover-overlay">
                         <a href="#"><i class="tf-ion-android-cart"></i></a>
                         <a href="#"><i class="tf-ion-ios-heart"></i></a>
@@ -201,9 +199,9 @@
                         </span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="col-lg-3 col-6">
+            <!-- <div class="col-lg-3 col-6">
                 <div class="product">
                     <div class="product-wrap">
                         <a routerLink="/product-single"><img class="img-fluid w-100 mb-3 img-first"
@@ -286,8 +284,6 @@
                         <a routerLink="/product-single"><img class="img-fluid w-100 mb-3 img-second"
                                 src="assets/images/CosmeticProduct-7.webp" alt="product-img" /></a>
                     </div>
-
-                    <!-- <span class="onsale">Sale</span> -->
                     <div class="product-hover-overlay">
                         <a href="#"><i class="tf-ion-android-cart"></i></a>
                         <a href="#"><i class="tf-ion-ios-heart"></i></a>
@@ -312,8 +308,6 @@
                         <a routerLink="/product-single"><img class="img-fluid w-100 mb-3 img-second"
                                 src="assets/images/CosmeticProduct-8.webp" alt="product-img" /></a>
                     </div>
-
-                    <!-- <span class="onsale">Sale</span> -->
                     <div class="product-hover-overlay">
                         <a href="#"><i class="tf-ion-android-cart"></i></a>
                         <a href="#"><i class="tf-ion-ios-heart"></i></a>
@@ -328,9 +322,9 @@
                         </span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="col-lg-3 col-6">
+            <!-- <div class="col-lg-3 col-6">
                 <div class="product">
                     <div class="product-wrap">
                         <a routerLink="/product-single"><img class="img-fluid w-100 mb-3 img-first"
@@ -338,8 +332,6 @@
                         <a routerLink="/product-single"><img class="img-fluid w-100 mb-3 img-second"
                                 src="assets/images/CosmeticProduct-9.webp" alt="product-img" /></a>
                     </div>
-
-                    <!-- <span class="onsale">Sale</span> -->
                     <div class="product-hover-overlay">
                         <a href="#"><i class="tf-ion-android-cart"></i></a>
                         <a href="#"><i class="tf-ion-ios-heart"></i></a>
@@ -390,7 +382,6 @@
                                 src="assets/images/CosmeticProduct-11.webp" alt="product-img" /></a>
                     </div>
 
-                    <!-- <span class="onsale">Sale</span> -->
                     <div class="product-hover-overlay">
                         <a href="#"><i class="tf-ion-android-cart"></i></a>
                         <a href="#"><i class="tf-ion-ios-heart"></i></a>
@@ -431,7 +422,7 @@
                         </span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
 
@@ -572,32 +563,32 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-3 col-6" *ngFor="let products of likedProducts">
                 <div class="product">
                     <div class="product-wrap">
                         <a routerLink="/product-single"><img class="img-fluid w-100 mb-3 img-first"
-                                src="assets/images/CosmeticProduct-13.webp" alt="product-img" /></a>
+                                src="{{products.image}}" alt="product-img" /></a>
                         <a routerLink="/product-single"><img class="img-fluid w-100 mb-3 img-second"
-                                src="assets/images/CosmeticProduct-13.webp" alt="product-img" /></a>
+                                src="{{products.image}}" alt="product-img" /></a>
                     </div>
 
-                    <span class="onsale">Sale</span>
+                    <span class="onsale" *ngIf="products.sale == true">Sale</span>
                     <div class="product-hover-overlay">
                         <a href="#"><i class="tf-ion-android-cart"></i></a>
                         <a href="#"><i class="tf-ion-ios-heart"></i></a>
                     </div>
 
                     <div class="product-info">
-                        <h2 class="product-title h5 mb-0"><a routerLink="/product-single">Sterling Silver Toning
-                                Conditioner</a></h2>
+                        <h2 class="product-title h5 mb-0"><a routerLink="/product-single">{{products.brand_name}}</a></h2>
+                        <p class="product-title"><a routerLink="/product-single">{{products.product_name}}</a></p>
                         <span class="price">
-                            $26.00
+                            {{products.price}}
                         </span>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-3 col-6">
+            <!-- <div class="col-lg-3 col-6">
                 <div class="product">
                     <div class="product-wrap">
                         <a routerLink="/product-single"><img class="img-fluid w-100 mb-3 img-first"
@@ -606,7 +597,6 @@
                                 src="assets/images/CosmeticProduct-14.webp" alt="product-img" /></a>
                     </div>
 
-                    <!-- <span class="onsale">Sale</span> -->
                     <div class="product-hover-overlay">
                         <a href="#"><i class="tf-ion-android-cart"></i></a>
                         <a href="#"><i class="tf-ion-ios-heart"></i></a>
@@ -670,7 +660,7 @@
                         </span>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </section>
