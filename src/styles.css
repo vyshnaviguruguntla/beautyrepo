@@ -1,1 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~ngx-toastr/toastr.css';
+
+.toast-top-center {
+    bottom: 0;
+    margin: 0 auto;
+    right: 0;
+    left: 0;
+    top: 0;
+  }
+  .toast-container.toast-top-center .ngx-toastr, .toast-container.toast-bottom-center .ngx-toastr {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:.3rem;
+    background-image: none;
+    padding: 15px;
+    font-size: 12px;
+     /*background-color: #008731;*/
+    line-height: 0.5;
+}
+.toast-close-button{
+    top: -0.1em;
+}
+
+.toast-error {
+    background-color: #BD362F;
+}
+.toast-success {
+    background-color: #008731;
+}
+
+.toast-info {
+    background-color: #6d5acb;
+}
+
+.toast-warning {
+    background-color: #f3b27a;
+}

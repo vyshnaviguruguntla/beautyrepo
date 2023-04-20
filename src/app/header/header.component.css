@@ -1,4 +1,8 @@
-.search input[type=text] {
+  .search {
+    position: relative;
+    top: -3px;
+  }
+  .search input[type=text] {
     padding: 10px;
     font-size: 13px;
     border: 1px solid grey;
@@ -19,7 +23,7 @@
     background: black;
     color: white;
     font-size: 13px;
-    border: 1px solid grey;
+    border: 1.5px solid grey;
     border-left: none;
     cursor: pointer;
   }

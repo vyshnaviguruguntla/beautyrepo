@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HeaderService } from '../header/header.service';
-import { map } from 'rxjs';
-
+import { ToastService } from '../toaster/toast.service';
 @Component({
   selector: 'app-product-single',
   templateUrl: './product-single.component.html',
@@ -15,7 +14,8 @@ export class ProductSingleComponent implements OnInit {
   searchList: any;
   bearerToken: any;
 
-  constructor(private http: HttpClient, private headerService: HeaderService) { }
+  constructor(private http: HttpClient, private headerService: HeaderService,
+    private toastr: ToastService) { }
 
   ngOnInit(): void {
     this.displayProducts();
@@ -24,7 +24,6 @@ export class ProductSingleComponent implements OnInit {
       this.productList = [];
       this.searchProducts(msg);
     });
-    this.getBearerToken();
   }
 
   fetchProducts() {
@@ -77,8 +76,10 @@ export class ProductSingleComponent implements OnInit {
 
   searchProducts(text: any) {
     this.searchProductsService(text).subscribe((res: any) => {
-        this.productList = res['Hair Products'] ? res['Hair Products'] : res;
+      this.productList = res['Hair Products'] ? res['Hair Products'] : res;
       console.log("SearchListProducts:", this.productList);
+      // Trigger Rig on click of search fuctionality
+      this.getBearerToken();
     }, (err: any) => {
       console.log("error:", err);
     })
@@ -89,8 +90,8 @@ export class ProductSingleComponent implements OnInit {
   callBearerTokenService() {
     const headers: any = [];
     headers['Content-Type'] = 'application/x-www-form-urlencoded'
-    headers['Host'] = 'cip-1621266427-iam-sit.aipacn.com'
-    headers['User-Agent'] = 'Apache-HttpClient/4.5.5 (Java/1.8.0_271)'
+    // headers['Host'] = 'cip-1621266427-iam-sit.aipacn.com'
+    // headers['User-Agent'] = 'Apache-HttpClient/4.5.5 (Java/1.8.0_271)'
     headers['Authorization'] = 'Basic VXZ4MGxlTkM2QjBpeUVVbFZ4dWVRUUhxMFBnYTpYNVk2ZU5INHlUUTlDOFJOcnlqZkptaHJoc0lh'
     //headers['recognition-identity-id'] = 'b95548f7deeea93bc0abeaade6597433'
     const body =
@@ -102,10 +103,10 @@ export class ProductSingleComponent implements OnInit {
   }
 
   getBearerToken() {
-
     this.callBearerTokenService().subscribe((res: any) => {
       console.log("Bearer Token:", res);
       this.bearerToken = res.access_token
+      this.getRigResponse();
     }, (err: any) => {
       console.log("error:", err);
     })
@@ -116,33 +117,42 @@ export class ProductSingleComponent implements OnInit {
   callRigService() {
     const headers: any = [];
     headers['Content-Type'] = 'application/json'
-    headers['Host'] = 'cip-1621266427-iam-sit.aipacn.com'
-    headers['User-Agent'] = 'Apache-HttpClient/4.5.5 (Java/1.8.0_271)'
+    // headers['Host'] = 'cip-1621266427-iam-sit.aipacn.com'
+    // headers['User-Agent'] = 'Apache-HttpClient/4.5.5 (Java/1.8.0_271)'
     headers['Authorization'] = 'Bearer ' + this.bearerToken
-    headers['cpaas-user-id'] = '123456789'
+    headers['cpaas-user-id'] = '123'
     const body = JSON.stringify({
-      "id": "e60e628b-2400-413e-b486-664a3d8bc752--11",
-      "type": "server.request",
-      "specversion": "0.2",
-      "source": "rig",
-      "contenttype": "application/json",
-      "deo": {
-        "projectName": "AI-led Claims",
-        "event": {
-          "eventName": "User agrees to give accident detail",
-          // "eventData": {
-          //   "mobileNumber": mobileNumber,
-          //   "request-for": "chatbot",
-          //   "option": userOption,
-          //   "intent": intentName
-          // }
+        "id": "e60e628b-2400-413e-b486-664a3d8bc752--11",
+        "type": "server.request",
+        "specversion": "0.2",
+        "source": "rig",
+        "contenttype": "application/json",
+        "deo": {
+          "projectName": "Propel RT",
+          "event": {
+            "eventName": "confirmation for Technician visit",
+            "eventData": {
+              "accountId": "123456788",
+              "issueType": "Router Issue",
+              "customerContact": "+917259190990"
+            }
+          }
         }
-      }
     })
 
     const url = "https://cip-1621266427-iam-sit.aipacn.com/xaas/enabler/producer/1.0.0/publish"
     const options = { headers: new HttpHeaders(headers) }
     return this.http.post(url, body, options);
+  }
+
+  getRigResponse(){
+    this.callRigService().subscribe((res: any) => {
+      console.log("Rig Response:", res);
+      this.toastr.showSuccess('Event Triggered successfully','');
+    }, (err: HttpErrorResponse) => {
+      console.log("error:", err.error.errorManagement.errorDescription);
+      this.toastr.showError('Event Trrigger failed','')
+    })
   }
 
 }
