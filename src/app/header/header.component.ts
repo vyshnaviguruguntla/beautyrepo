@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HeaderService } from './header.service';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  
+ approvalText:string="";
 
-  constructor() { }
+  constructor(private headerService:HeaderService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
+
+  submit(){
+    console.log("search Text",this.approvalText);
+    this.headerService.updateApprovalMessage(this.approvalText)
+ }
 
 }

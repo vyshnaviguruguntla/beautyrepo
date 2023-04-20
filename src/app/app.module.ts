@@ -18,7 +18,7 @@ import { ProductSingleComponent } from './product-single/product-single.componen
 import { ProfileDetailsComponent } from './profile-details/profile-details.component';
 import { ShopComponent } from './shop/shop.component';
 import { SignupComponent } from './shop/signup/signup.component';
-// import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -43,6 +43,7 @@ import { SignupComponent } from './shop/signup/signup.component';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    FormsModule
     //SlickCarouselModule
   ],
   providers: [],

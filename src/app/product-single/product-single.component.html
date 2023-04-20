@@ -128,8 +128,9 @@
         </div>
       </div> -->
         <div class="row">
-            <div class="col-lg-3 col-6"  *ngFor="let products of productList">
-                <div class="product">
+            <span class="no-products" *ngIf=" productList && productList.length === 0">No products found!</span>
+            <div class="col-lg-3 col-6"  *ngFor="let products of productList"> 
+                <div class="product" *ngIf="productList.length > 0">
                     <div class="product-wrap">
                         <a routerLink="/product-single"><img class="img-fluid w-100 mb-3 img-first"
                                 src="{{products.image}}" alt="product-img" /></a>

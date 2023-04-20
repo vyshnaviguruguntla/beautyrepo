@@ -1,3 +1,11 @@
 .product-info p{
     font-size: 13px;
 }
+.no-products {
+    display: block;
+    text-align: center;
+    width: 100%;
+    font-family: "Source Sans Pro", sans-serif;
+    color: #757575;
+    font-size: 20px;
+}

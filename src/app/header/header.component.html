@@ -67,8 +67,11 @@
       <!-- Navbar-collapse -->
   
       <ul class="top-menu list-inline mb-0 d-none d-lg-block" id="top-menu">
-        <li class="list-inline-item">
-          <a href="#" class="search_toggle" id="search-icon"><i class="tf-ion-android-search"></i></a>
+        <li class="list-inline-item search">
+          <form>
+          <input type="text" placeholder="Search.." name="search2" [(ngModel)]="approvalText">
+          <button type="submit" (click)="submit()"><i class="fa fa-search"></i></button>
+        </form>
         </li>
   
         <li class="dropdown cart-nav dropdown-slide list-inline-item">
@@ -79,13 +82,13 @@
             <!-- Cart Item -->
             <div class="media">
               <a routerLink="/product-single">
-                <img class="media-object img- mr-3" src="assets/images/cart-1.jpg" alt="image" />
+                <img class="media-object img- mr-3" src="https://media.ulta.com/i/ulta/2541778?w=300&amp;amp;$ProductCardNeutralBGLight$&amp;amp;fmt=auto" alt="image" />
               </a>
               <div class="media-body">
-                <h6>Ladies Bag</h6>
+                <h6>Philosophy</h6>
                 <div class="cart-price">
                   <span>1 x</span>
-                  <span>1250.00</span>
+                  <span>$16</span>
                 </div>
               </div>
               <a href="#" class="remove"><i class="tf-ion-close"></i></a>
@@ -94,13 +97,13 @@
             <!-- Cart Item -->
             <div class="media">
               <a routerLink="/product-single">
-                <img class="media-object img-fluid mr-3" src="assets/images/cart-2.jpg" alt="image" />
+                <img class="media-object img-fluid mr-3" src="https://media.ulta.com/i/ulta/2591015?w=300&amp;amp;$ProductCardNeutralBGLight$&amp;amp;fmt=auto" alt="image" />
               </a>
               <div class="media-body">
-                <h6>Skinny Jeans</h6>
+                <h6>Olaplex</h6>
                 <div class="cart-price">
                   <span>1 x</span>
-                  <span>1250.00</span>
+                  <span>$14</span>
                 </div>
               </div>
               <a href="#" class="remove"><i class="tf-ion-close"></i></a>
@@ -108,7 +111,7 @@
   
             <div class="cart-summary">
               <span class="h6">Total</span>
-              <span class="total-price h6">$1799.00</span>
+              <span class="total-price h6">$30.00</span>
   
               <div class="text-center cart-buttons mt-3">
                 <a href="#" class="btn btn-small btn-transparent btn-block">View Cart</a>
