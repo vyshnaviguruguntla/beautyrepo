@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HeaderService } from '../header/header.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-product-single',
@@ -9,9 +10,10 @@ import { HeaderService } from '../header/header.service';
 })
 export class ProductSingleComponent implements OnInit {
 
-  productList: any;
+  productList: any =[];
   likedProducts: any;
   searchList: any;
+  bearerToken: any;
 
   constructor(private http: HttpClient, private headerService: HeaderService) { }
 
@@ -19,9 +21,8 @@ export class ProductSingleComponent implements OnInit {
     this.displayProducts();
     this.fetchLikedProducts();
     this.headerService.currentApprovalStageMessage.subscribe(msg => {
-      // if (msg !== 'Basic Approval is required!') {
-        this.searchProducts(msg);
-      // }
+      this.productList = [];
+      this.searchProducts(msg);
     });
     this.getBearerToken();
   }
@@ -76,7 +77,7 @@ export class ProductSingleComponent implements OnInit {
 
   searchProducts(text: any) {
     this.searchProductsService(text).subscribe((res: any) => {
-      this.productList = res['Hair Products'] ? res['Hair Products'] : res;
+        this.productList = res['Hair Products'] ? res['Hair Products'] : res;
       console.log("SearchListProducts:", this.productList);
     }, (err: any) => {
       console.log("error:", err);
@@ -92,8 +93,8 @@ export class ProductSingleComponent implements OnInit {
     headers['User-Agent'] = 'Apache-HttpClient/4.5.5 (Java/1.8.0_271)'
     headers['Authorization'] = 'Basic VXZ4MGxlTkM2QjBpeUVVbFZ4dWVRUUhxMFBnYTpYNVk2ZU5INHlUUTlDOFJOcnlqZkptaHJoc0lh'
     //headers['recognition-identity-id'] = 'b95548f7deeea93bc0abeaade6597433'
-    const body = 
-    'grant_type=password&username=dir/ACEuser@cip.accenture.com@cip.accenture.com&password=Digitalinsurance786#&scope=PRODUCTION'
+    const body =
+      'grant_type=password&username=dir/ACEuser@cip.accenture.com@cip.accenture.com&password=Digitalinsurance786#&scope=PRODUCTION'
     //'grant_type=password&username=dir/experiencebuilder@cip.accenture.com@cip.accenture.com&password=Digitalinsurance786&&scope=PRODUCTION'
     const url = "https://cip-1621266427-iam-sit.aipacn.com/platform/enabler/iam/token/1.0.0/token"
     const options = { headers: new HttpHeaders(headers) }
@@ -101,15 +102,47 @@ export class ProductSingleComponent implements OnInit {
   }
 
   getBearerToken() {
+
     this.callBearerTokenService().subscribe((res: any) => {
       console.log("Bearer Token:", res);
+      this.bearerToken = res.access_token
     }, (err: any) => {
       console.log("error:", err);
     })
   }
 
-  /* Call Rig Url */
+  /* Call Rig */
 
-  
+  callRigService() {
+    const headers: any = [];
+    headers['Content-Type'] = 'application/json'
+    headers['Host'] = 'cip-1621266427-iam-sit.aipacn.com'
+    headers['User-Agent'] = 'Apache-HttpClient/4.5.5 (Java/1.8.0_271)'
+    headers['Authorization'] = 'Bearer ' + this.bearerToken
+    headers['cpaas-user-id'] = '123456789'
+    const body = JSON.stringify({
+      "id": "e60e628b-2400-413e-b486-664a3d8bc752--11",
+      "type": "server.request",
+      "specversion": "0.2",
+      "source": "rig",
+      "contenttype": "application/json",
+      "deo": {
+        "projectName": "AI-led Claims",
+        "event": {
+          "eventName": "User agrees to give accident detail",
+          // "eventData": {
+          //   "mobileNumber": mobileNumber,
+          //   "request-for": "chatbot",
+          //   "option": userOption,
+          //   "intent": intentName
+          // }
+        }
+      }
+    })
+
+    const url = "https://cip-1621266427-iam-sit.aipacn.com/xaas/enabler/producer/1.0.0/publish"
+    const options = { headers: new HttpHeaders(headers) }
+    return this.http.post(url, body, options);
+  }
 
 }
