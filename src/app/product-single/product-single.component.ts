@@ -78,11 +78,12 @@ export class ProductSingleComponent implements OnInit {
   /* Display Search Products */
 
   searchProducts(text: any) {
+    let searchText = text;
     this.searchProductsService(text).subscribe((res: any) => {
       this.productList = res['Hair Products'] ? res['Hair Products'] : res;
       console.log("SearchListProducts:", this.productList);
       // Trigger Rig on click of search fuctionality
-      this.getBearerToken();
+      this.getBearerToken(searchText);
     }, (err: any) => {
       console.log("error:", err);
     })
@@ -102,11 +103,11 @@ export class ProductSingleComponent implements OnInit {
     return this.http.post(url, body, options);
   }
 
-  getBearerToken() {
+  getBearerToken(searchText:any) {
     this.callBearerTokenService().subscribe((res: any) => {
       console.log("Bearer Token:", res);
       this.bearerToken = res.access_token
-      this.getRigResponse();
+      this.getRigResponse(searchText);
     }, (err: any) => {
       console.log("error:", err);
     })
@@ -114,7 +115,7 @@ export class ProductSingleComponent implements OnInit {
 
   /* Call Rig */
 
-  callRigService() {
+  callRigService(searchText:any) {
     const headers: any = [];
     headers['Content-Type'] = 'application/json'
     headers['Authorization'] = 'Bearer ' + this.bearerToken
@@ -127,21 +128,16 @@ export class ProductSingleComponent implements OnInit {
       "contenttype": "application/json",
       "deo": {
         "eventIdentifier": "NjM4NzFkZjkyMzVjY2QwMDE3YzVlMmVl-NjNhYThlNmMwY2ViNjYwMDE3ZTNiNzM0",
-        "projectName": "AI-led Claims",
+        "projectName": "Commerce",
         "event": {
           "eventData": {
-            "request-for": "Fetch",
-            "mobile-number": "+919989500699",
-            "RentalCar_Name": "Company",
-            "RentalCar_Address": "Address",
-            "RentalCar_Number": "#7777",
-            "company": "Company",
-            "customer": {
-              "name": "Madhuri",
-              "contact": "+917259190990",
-              "email": "abc@gmail.com",
-              "ClaimReferencenumber": ""
-            }
+            "user": "test_user",
+            "query": searchText,
+            "channel": "Web",
+            "action": "",
+            "refererpage": "",
+            "device_type": "",
+            "device_name": ""
           }
         }
       }
@@ -153,8 +149,8 @@ export class ProductSingleComponent implements OnInit {
     return this.http.post(url, body, options);
   }
 
-  getRigResponse(){
-    this.callRigService().subscribe((res: any) => {
+  getRigResponse(searchText:any){
+    this.callRigService(searchText).subscribe((res: any) => {
       console.log("Rig Response:", res);
       this.toastr.showSuccess('Event Triggered successfully','');
     }, (err: HttpErrorResponse) => {
