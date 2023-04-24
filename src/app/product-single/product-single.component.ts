@@ -127,13 +127,13 @@ export class ProductSingleComponent implements OnInit {
       "source": "rig",
       "contenttype": "application/json",
       "deo": {
-        "eventIdentifier": "NjM4NzFkZjkyMzVjY2QwMDE3YzVlMmVl-NjNhYThlNmMwY2ViNjYwMDE3ZTNiNzM0",
+        "eventIdentifier": "NjQ0NjY4MWY4OWI5NzUwMDE3ZTUwZTlh-NjQ0NjY3NDk4OWI5NzUwMDE3ZTUwZTVk",
         "projectName": "Commerce",
         "event": {
           "eventData": {
-            "user": "test_user",
+            "user": "test-user",
             "query": searchText,
-            "channel": "Web",
+            "channel": "web",
             "action": "",
             "refererpage": "",
             "device_type": "",
@@ -144,7 +144,7 @@ export class ProductSingleComponent implements OnInit {
     })
 
     //const url = "https://cip-1621266427-iam-sit.aipacn.com/xaas/enabler/producer/1.0.0/publish"
-    const url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/xaas/enabler/rigevent/1.0.0/publish"
+    const url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/xaas/enabler/producer/1.0.0/publish"
     const options = { headers: new HttpHeaders(headers) }
     return this.http.post(url, body, options);
   }
@@ -155,7 +155,7 @@ export class ProductSingleComponent implements OnInit {
       this.toastr.showSuccess('Event Triggered successfully','');
     }, (err: HttpErrorResponse) => {
       console.log("error:", err);
-      this.toastr.showError('Event Trrigger failed','')
+      this.toastr.showError('Event Trigger failed','')
     })
   }
 
