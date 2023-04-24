@@ -29,6 +29,7 @@ export class ProductSingleComponent implements OnInit {
   fetchProducts() {
     const headers: any = [];
     headers['Content-Type'] = 'application/json';
+    headers['Acess-Control-Allow-Origin'] = '*';
     const url = "https://sample-poc-8a5f.vercel.app/api/getProducts"
     const options = { headers: new HttpHeaders(headers) }
     return this.http.get(url, options);
@@ -37,6 +38,7 @@ export class ProductSingleComponent implements OnInit {
   fetchYouMayAlsoLikeService() {
     const headers: any = [];
     headers['Content-Type'] = 'application/json';
+    headers['Acess-Control-Allow-Origin'] = '*';
     const url = "https://sample-poc-8a5f.vercel.app/api/getLikedProducts"
     const options = { headers: new HttpHeaders(headers) }
     return this.http.get(url, options);
@@ -45,6 +47,7 @@ export class ProductSingleComponent implements OnInit {
   searchProductsService(text: any) {
     const headers: any = [];
     headers['Content-Type'] = 'application/json';
+    headers['Acess-Control-Allow-Origin'] = '*';
     const url = "https://sample-poc-8a5f.vercel.app/api/search?searchKey=" + text;
     const options = { headers: new HttpHeaders(headers) }
     return this.http.get(url, options);
@@ -90,14 +93,11 @@ export class ProductSingleComponent implements OnInit {
   callBearerTokenService() {
     const headers: any = [];
     headers['Content-Type'] = 'application/x-www-form-urlencoded'
-    // headers['Host'] = 'cip-1621266427-iam-sit.aipacn.com'
-    // headers['User-Agent'] = 'Apache-HttpClient/4.5.5 (Java/1.8.0_271)'
-    headers['Authorization'] = 'Basic VXZ4MGxlTkM2QjBpeUVVbFZ4dWVRUUhxMFBnYTpYNVk2ZU5INHlUUTlDOFJOcnlqZkptaHJoc0lh'
+    headers['Authorization'] = 'Basic UjVwX1NrM0M0TU55dEs5V1NBbnFqNm0ySUxvYTpfZV9jeHF4VHlzdGdCRFpzVGdRb1QyZVV4OUVh'
     //headers['recognition-identity-id'] = 'b95548f7deeea93bc0abeaade6597433'
     const body =
-      'grant_type=password&username=dir/ACEuser@cip.accenture.com@cip.accenture.com&password=Digitalinsurance786#&scope=PRODUCTION'
-    //'grant_type=password&username=dir/experiencebuilder@cip.accenture.com@cip.accenture.com&password=Digitalinsurance786&&scope=PRODUCTION'
-    const url = "https://cip-1621266427-iam-sit.aipacn.com/platform/enabler/iam/token/1.0.0/token"
+      'grant_type=password&username=dir/experiencebuilder@cipdemo.accenture.com@cipdemo.accenture.com&password=Digitalinsurance786#&scope=PRODUCTION'
+    const url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/platform/enabler/iam/token/1.0.0/token"
     const options = { headers: new HttpHeaders(headers) }
     return this.http.post(url, body, options);
   }
@@ -117,30 +117,38 @@ export class ProductSingleComponent implements OnInit {
   callRigService() {
     const headers: any = [];
     headers['Content-Type'] = 'application/json'
-    // headers['Host'] = 'cip-1621266427-iam-sit.aipacn.com'
-    // headers['User-Agent'] = 'Apache-HttpClient/4.5.5 (Java/1.8.0_271)'
     headers['Authorization'] = 'Bearer ' + this.bearerToken
     headers['cpaas-user-id'] = '123'
     const body = JSON.stringify({
-        "id": "e60e628b-2400-413e-b486-664a3d8bc752--11",
-        "type": "server.request",
-        "specversion": "0.2",
-        "source": "rig",
-        "contenttype": "application/json",
-        "deo": {
-          "projectName": "Propel RT",
-          "event": {
-            "eventName": "confirmation for Technician visit",
-            "eventData": {
-              "accountId": "123456788",
-              "issueType": "Router Issue",
-              "customerContact": "+917259190990"
+      "id": "e60e628b-2400-413e-b486-664a3d8bc752--11",
+      "type": "server.request",
+      "specversion": "0.2",
+      "source": "rig",
+      "contenttype": "application/json",
+      "deo": {
+        "eventIdentifier": "NjM4NzFkZjkyMzVjY2QwMDE3YzVlMmVl-NjNhYThlNmMwY2ViNjYwMDE3ZTNiNzM0",
+        "projectName": "AI-led Claims",
+        "event": {
+          "eventData": {
+            "request-for": "Fetch",
+            "mobile-number": "+919989500699",
+            "RentalCar_Name": "Company",
+            "RentalCar_Address": "Address",
+            "RentalCar_Number": "#7777",
+            "company": "Company",
+            "customer": {
+              "name": "Madhuri",
+              "contact": "+917259190990",
+              "email": "abc@gmail.com",
+              "ClaimReferencenumber": ""
             }
           }
         }
+      }
     })
 
-    const url = "https://cip-1621266427-iam-sit.aipacn.com/xaas/enabler/producer/1.0.0/publish"
+    //const url = "https://cip-1621266427-iam-sit.aipacn.com/xaas/enabler/producer/1.0.0/publish"
+    const url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/xaas/enabler/rigevent/1.0.0/publish"
     const options = { headers: new HttpHeaders(headers) }
     return this.http.post(url, body, options);
   }
@@ -150,7 +158,7 @@ export class ProductSingleComponent implements OnInit {
       console.log("Rig Response:", res);
       this.toastr.showSuccess('Event Triggered successfully','');
     }, (err: HttpErrorResponse) => {
-      console.log("error:", err.error.errorManagement.errorDescription);
+      console.log("error:", err);
       this.toastr.showError('Event Trrigger failed','')
     })
   }
