@@ -85,7 +85,7 @@ export class ProductSingleComponent implements OnInit {
       this.productList = res['Hair Products'] ? res['Hair Products'] : res;
       console.log("SearchListProducts:", this.productList);
       // Trigger Rig on click of search fuctionality
-      this.getBearerToken(searchText);
+      this.getBearerToken(searchText,'search');
     }, (err: any) => {
       console.log("error:", err);
     })
@@ -105,11 +105,11 @@ export class ProductSingleComponent implements OnInit {
     return this.http.post(url, body, options);
   }
 
-  getBearerToken(searchText:any) {
+  getBearerToken(searchText:any,parm:any) {
     this.callBearerTokenService().subscribe((res: any) => {
       console.log("Bearer Token:", res);
       this.bearerToken = res.access_token
-      this.getRigResponse(searchText);
+      this.getRigResponse(searchText,parm);
     }, (err: any) => {
       console.log("error:", err);
     })
@@ -117,41 +117,67 @@ export class ProductSingleComponent implements OnInit {
 
   /* Call Rig */
 
-  callRigService(searchText:any) {
+  callRigService(searchText:any,parm:any) {
     const headers: any = [];
     headers['Content-Type'] = 'application/json'
     headers['Authorization'] = 'Bearer ' + this.bearerToken
-    headers['cpaas-user-id'] = '123'
-    const body = JSON.stringify({
-      "id": "e60e628b-2400-413e-b486-664a3d8bc752--11",
-      "type": "server.request",
-      "specversion": "0.2",
-      "source": "rig",
-      "contenttype": "application/json",
-      "deo": {
-        "eventIdentifier": "NjQ0NjY4MWY4OWI5NzUwMDE3ZTUwZTlh-NjQ0NjY3NDk4OWI5NzUwMDE3ZTUwZTVk",
-        "projectName": "Commerce",
-        "event": {
-          "eventData": {
-            "user": "Testuser",
-            "query": searchText,
-            "channel": "web",
-            "action": "click on home search icon",
-            "refererpage": window.location.href,
-            "device_type": navigator.appVersion
+    headers['cpaas-user-id'] = '123';
+    let body:any;
+    let url: any;
+    if(parm === 'search'){
+      body = JSON.stringify({
+        "id": "e60e628b-2400-413e-b486-664a3d8bc752--11",
+        "type": "server.request",
+        "specversion": "0.2",
+        "source": "rig",
+        "contenttype": "application/json",
+        "deo": {
+          "eventIdentifier": "NjQ0NjY4MWY4OWI5NzUwMDE3ZTUwZTlh-NjQ0NjY3NDk4OWI5NzUwMDE3ZTUwZTVk",//comb of journey id and event id
+          "projectName": "Commerce",
+          "event": {
+            "eventData": {
+              "user": "1234",
+              "query": searchText,
+              "channel": "web",
+              "action": "click on home search icon",
+              "refererpage": window.location.href,
+              "device_type": navigator.appVersion
+            }
           }
         }
-      }
-    })
-
-    //const url = "https://cip-1621266427-iam-sit.aipacn.com/xaas/enabler/producer/1.0.0/publish"
-    const url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/xaas/enabler/producer/1.0.0/publish"
+      })
+      url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/xaas/enabler/producer/1.0.0/publish"
+    }else { //parm is addtocart
+      body = JSON.stringify({
+        "id": "e60e628b-2400-413e-b486-664a3d8bc752--11",
+        "type": "server.request",
+        "specversion": "0.2",
+        "source": "rig",
+        "contenttype": "application/json",
+        "deo": {
+          "eventIdentifier": "NjQ0NjY4MWY4OWI5NzUwMDE3ZTUwZTlh-NjQ0YTFlMDk4OWI5NzUwMDE3ZTUxNzNk",//comb of journey id and event id
+          "projectName": "Commerce",
+          "event": {
+            "eventData": {
+              "user":"1234",
+              "channel" :"Web",
+              "action" :"add to cart",
+              "product_data":searchText,
+              "quantity":1,
+              "refererpage" :window.location.href,
+              "device_type":navigator.appVersion,
+            }
+          }
+        }
+      })
+      url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/xaas/enabler/rigevent/1.0.0/publish"
+    }
     const options = { headers: new HttpHeaders(headers) }
     return this.http.post(url, body, options);
   }
 
-  getRigResponse(searchText:any){
-    this.callRigService(searchText).subscribe((res: any) => {
+  getRigResponse(searchText:any,parm:any){
+    this.callRigService(searchText,parm).subscribe((res: any) => {
       console.log("Rig Response:", res);
       this.toastr.showSuccess('Event Triggered successfully','');
     }, (err: HttpErrorResponse) => {
@@ -164,6 +190,7 @@ export class ProductSingleComponent implements OnInit {
     this.toastr.showSuccess('Product added Successfully','');
     console.log("selected product",selectedProduct);
     this.headerService.getCartItems(selectedProduct);
+    this.getBearerToken(selectedProduct,'addtoCart');
     //this.router.navigate(['./cart']);
   }
 
