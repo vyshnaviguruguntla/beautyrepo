@@ -80,22 +80,28 @@
           </a>
           <div class="dropdown-menu cart-dropdown">
             <!-- Cart Item -->
-            <div class="media">
+            <div class="media" *ngFor="let product of productList;let index = index"  #products>
               <a routerLink="/product-single">
-                <img class="media-object img- mr-3" src="https://media.ulta.com/i/ulta/2541778?w=300&amp;amp;$ProductCardNeutralBGLight$&amp;amp;fmt=auto" alt="image" />
+                <img class="media-object img- mr-3" src="{{product.image}}" alt="image" />
               </a>
               <div class="media-body">
-                <h6>Philosophy</h6>
+                <h6>{{product.brand_name}}</h6>
                 <div class="cart-price">
                   <span>1 x</span>
-                  <span>$16</span>
+                  <span>{{product.price}}</span>
                 </div>
               </div>
               <a href="#" class="remove"><i class="tf-ion-close"></i></a>
-            </div><!-- / Cart Item -->
+            </div>
+            <div *ngIf="productList.length === 0">
+              <p class="empty-cart-msg">
+                  No items in the cart!
+              </p>
+            </div>
+            <!-- / Cart Item -->
   
             <!-- Cart Item -->
-            <div class="media">
+            <!-- <div class="media">
               <a routerLink="/product-single">
                 <img class="media-object img-fluid mr-3" src="https://media.ulta.com/i/ulta/2591015?w=300&amp;amp;$ProductCardNeutralBGLight$&amp;amp;fmt=auto" alt="image" />
               </a>
@@ -107,14 +113,15 @@
                 </div>
               </div>
               <a href="#" class="remove"><i class="tf-ion-close"></i></a>
-            </div><!-- / Cart Item -->
+            </div> -->
+            <!-- / Cart Item -->
   
-            <div class="cart-summary">
-              <span class="h6">Total</span>
+            <div class="cart-summary" *ngIf="productList.length > 0">
+              <!-- <span class="h6">Total</span>
               <span class="total-price h6">$30.00</span>
-  
+   -->
               <div class="text-center cart-buttons mt-3">
-                <a href="#" class="btn btn-small btn-transparent btn-block">View Cart</a>
+                <a (click)="addtoCart()" class="btn btn-small btn-transparent btn-block">View Cart</a>
                 <a href="#" class="btn btn-small btn-main btn-block">Checkout</a>
               </div>
             </div>

@@ -9,3 +9,7 @@
     color: #757575;
     font-size: 20px;
 }
+
+.product-hover-overlay a {
+    color: #fff !important;
+}

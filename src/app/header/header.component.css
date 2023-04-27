@@ -37,3 +37,8 @@
     clear: both;
     display: table;
   }
+
+  .empty-cart-msg {
+    text-align: center;
+    font-size: 16px;
+  }

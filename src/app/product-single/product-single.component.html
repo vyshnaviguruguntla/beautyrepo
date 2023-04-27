@@ -129,7 +129,7 @@
       </div> -->
         <div class="row">
             <span class="no-products" *ngIf="productList && productList.message">No products found!</span>
-            <div class="col-lg-3 col-6"  *ngFor="let products of productList "> 
+            <div class="col-lg-3 col-6"  *ngFor="let products of productList;let index = index"  #products> 
                 <div class="product">
                     <div class="product-wrap">
                         <a routerLink="/product-single"><img class="img-fluid w-100 mb-3 img-first"
@@ -140,7 +140,7 @@
 
                     <span class="onsale" *ngIf="products.sale == true">Sale</span>
                     <div class="product-hover-overlay">
-                        <a href="#"><i class="tf-ion-android-cart"></i></a>
+                        <a (click)="addtoCart(products)"><i class="tf-ion-android-cart"></i></a>
                         <a href="#"><i class="tf-ion-ios-heart"></i></a>
                     </div>
 

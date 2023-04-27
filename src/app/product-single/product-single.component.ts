@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HeaderService } from '../header/header.service';
 import { ToastService } from '../toaster/toast.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-product-single',
   templateUrl: './product-single.component.html',
@@ -13,9 +14,10 @@ export class ProductSingleComponent implements OnInit {
   likedProducts: any;
   searchList: any;
   bearerToken: any;
+  cartProduct:any;
 
   constructor(private http: HttpClient, private headerService: HeaderService,
-    private toastr: ToastService) { }
+    private toastr: ToastService, private router:Router) { }
 
   ngOnInit(): void {
     this.displayProducts();
@@ -131,13 +133,12 @@ export class ProductSingleComponent implements OnInit {
         "projectName": "Commerce",
         "event": {
           "eventData": {
-            "user": "test-user",
+            "user": "Testuser",
             "query": searchText,
             "channel": "web",
-            "action": "",
-            "refererpage": "",
-            "device_type": "",
-            "device_name": ""
+            "action": "click on home search icon",
+            "refererpage": window.location.href,
+            "device_type": navigator.appVersion
           }
         }
       }
@@ -157,6 +158,13 @@ export class ProductSingleComponent implements OnInit {
       console.log("error:", err);
       this.toastr.showError('Event Trigger failed','')
     })
+  }
+
+  addtoCart(selectedProduct:any){
+    this.toastr.showSuccess('Product added Successfully','');
+    console.log("selected product",selectedProduct);
+    this.headerService.getCartItems(selectedProduct);
+    //this.router.navigate(['./cart']);
   }
 
 }
