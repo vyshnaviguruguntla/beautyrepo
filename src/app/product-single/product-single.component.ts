@@ -15,11 +15,14 @@ export class ProductSingleComponent implements OnInit {
   searchList: any;
   bearerToken: any;
   cartProduct:any;
+  uuid: any;
 
   constructor(private http: HttpClient, private headerService: HeaderService,
     private toastr: ToastService, private router:Router) { }
 
   ngOnInit(): void {
+    this.uuid = this.getUUID4();
+    console.log("random ID:",this.uuid);
     this.displayProducts();
     this.fetchLikedProducts();
     this.headerService.currentApprovalStageMessage.subscribe(msg => {
@@ -28,10 +31,19 @@ export class ProductSingleComponent implements OnInit {
     });
   }
 
+  getUUID4(){
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0; 
+      const v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
   fetchProducts() {
     const headers: any = [];
     headers['Content-Type'] = 'application/json';
     headers['Acess-Control-Allow-Origin'] = '*';
+    headers['sessionId'] = this.uuid;
     const url = "https://sample-poc-8a5f.vercel.app/api/getProducts"
     const options = { headers: new HttpHeaders(headers) }
     return this.http.get(url, options);
@@ -41,6 +53,7 @@ export class ProductSingleComponent implements OnInit {
     const headers: any = [];
     headers['Content-Type'] = 'application/json';
     headers['Acess-Control-Allow-Origin'] = '*';
+    headers['sessionId'] = this.uuid;
     const url = "https://sample-poc-8a5f.vercel.app/api/getLikedProducts"
     const options = { headers: new HttpHeaders(headers) }
     return this.http.get(url, options);
@@ -50,6 +63,7 @@ export class ProductSingleComponent implements OnInit {
     const headers: any = [];
     headers['Content-Type'] = 'application/json';
     headers['Acess-Control-Allow-Origin'] = '*';
+    headers['sessionId'] = this.uuid;
     const url = "https://sample-poc-8a5f.vercel.app/api/search?searchKey=" + text;
     const options = { headers: new HttpHeaders(headers) }
     return this.http.get(url, options);
@@ -141,7 +155,8 @@ export class ProductSingleComponent implements OnInit {
               "channel": "web",
               "action": "click on home search icon",
               "refererpage": window.location.href,
-              "device_type": navigator.appVersion
+              "device_type": navigator.appVersion,
+              "sessionId":this.uuid
             }
           }
         }
@@ -165,7 +180,8 @@ export class ProductSingleComponent implements OnInit {
               "product_data":searchText,
               "quantity":1,
               "refererpage" :window.location.href,
-              "device_type":navigator.appVersion,
+              "device_type":navigator.appVersion, //session id should be included
+              "sessionId":this.uuid
             }
           }
         }
