@@ -110,11 +110,19 @@ export class ProductSingleComponent implements OnInit {
   callBearerTokenService() {
     const headers: any = [];
     headers['Content-Type'] = 'application/x-www-form-urlencoded'
-    headers['Authorization'] = 'Basic UjVwX1NrM0M0TU55dEs5V1NBbnFqNm0ySUxvYTpfZV9jeHF4VHlzdGdCRFpzVGdRb1QyZVV4OUVh'
+    //cip demo
+    //headers['Authorization'] = 'Basic UjVwX1NrM0M0TU55dEs5V1NBbnFqNm0ySUxvYTpfZV9jeHF4VHlzdGdCRFpzVGdRb1QyZVV4OUVh'
+    //cip old
+    headers['Authorization'] = 'Basic VXZ4MGxlTkM2QjBpeUVVbFZ4dWVRUUhxMFBnYTpYNVk2ZU5INHlUUTlDOFJOcnlqZkptaHJoc0lh'
     //headers['recognition-identity-id'] = 'b95548f7deeea93bc0abeaade6597433'
-    const body =
-      'grant_type=password&username=dir/experiencebuilder@cipdemo.accenture.com@cipdemo.accenture.com&password=Digitalinsurance786#&scope=PRODUCTION'
-    const url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/platform/enabler/iam/token/1.0.0/token"
+    //cip demo
+    //const body ='grant_type=password&username=dir/experiencebuilder@cipdemo.accenture.com@cipdemo.accenture.com&password=Digitalinsurance786#&scope=PRODUCTION'
+    //cip old
+    const body = 'grant_type=password&username=dir/experiencebuilder@cip.accenture.com@cip.accenture.com&password=Digitalinsurance786#&scope=PRODUCTION'
+    //cip demo url
+    //const url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/platform/enabler/iam/token/1.0.0/token"
+    //cip old url
+    const url = "https://cip-1621266427-iam-sit.aipacn.com/platform/enabler/iam/token/1.0.0/token"
     const options = { headers: new HttpHeaders(headers) }
     return this.http.post(url, body, options);
   }
@@ -146,9 +154,13 @@ export class ProductSingleComponent implements OnInit {
         "source": "rig",
         "contenttype": "application/json",
         "deo": {
-          "eventIdentifier": "NjQ0NjY4MWY4OWI5NzUwMDE3ZTUwZTlh-NjQ0NjY3NDk4OWI5NzUwMDE3ZTUwZTVk",//comb of journey id and event id
-          "projectName": "Commerce",
+          //cip demo
+          //"eventIdentifier": "NjQ0NjY4MWY4OWI5NzUwMDE3ZTUwZTlh-NjQ0NjY3NDk4OWI5NzUwMDE3ZTUwZTVk",//comb of journey id and event id
+          //"projectName": "Commerce",
+          "projectName":"commerce",
           "event": {
+            //cip old
+            "eventName": "SearchEvent",
             "eventData": {
               "user": "1234",
               "query": searchText,
@@ -161,7 +173,10 @@ export class ProductSingleComponent implements OnInit {
           }
         }
       })
-      url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/xaas/enabler/producer/1.0.0/publish"
+      //cip demo
+      //url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/xaas/enabler/producer/1.0.0/publish"
+      //cip old
+      url = "https://cip-1621266427-iam-sit.aipacn.com/xaas/enabler/rigevent/1.0.0/publish"
     }else { //parm is addtocart
       body = JSON.stringify({
         "id": "e60e628b-2400-413e-b486-664a3d8bc752--11",
@@ -170,9 +185,13 @@ export class ProductSingleComponent implements OnInit {
         "source": "rig",
         "contenttype": "application/json",
         "deo": {
-          "eventIdentifier": "NjQ0NjY4MWY4OWI5NzUwMDE3ZTUwZTlh-NjQ0YTFlMDk4OWI5NzUwMDE3ZTUxNzNk",//comb of journey id and event id
-          "projectName": "Commerce",
+          //cip demo
+          //"eventIdentifier": "NjQ0NjY4MWY4OWI5NzUwMDE3ZTUwZTlh-NjQ0YTFlMDk4OWI5NzUwMDE3ZTUxNzNk",//comb of journey id and event id
+          //"projectName": "Commerce",
+          "projectName":"commerce",
           "event": {
+            //cip old
+            "eventName": "AddToCartEvent",
             "eventData": {
               "user":"1234",
               "channel" :"Web",
@@ -186,7 +205,10 @@ export class ProductSingleComponent implements OnInit {
           }
         }
       })
-      url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/xaas/enabler/rigevent/1.0.0/publish"
+      //cip demo
+      //url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/xaas/enabler/rigevent/1.0.0/publish"
+      //cip old
+      url = "https://cip-1621266427-iam-sit.aipacn.com/xaas/enabler/rigevent/1.0.0/publish"
     }
     const options = { headers: new HttpHeaders(headers) }
     return this.http.post(url, body, options);
