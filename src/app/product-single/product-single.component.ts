@@ -162,7 +162,7 @@ export class ProductSingleComponent implements OnInit {
             //cip old
             "eventName": "SearchEvent",
             "eventData": {
-              "user": "1234",
+              "user": "e5ea5a3e-94ed-4d6e-8399-8e5309468e50",
               "query": searchText,
               "channel": "web",
               "action": "click on home search icon",
@@ -193,7 +193,7 @@ export class ProductSingleComponent implements OnInit {
             //cip old
             "eventName": "AddToCartEvent",
             "eventData": {
-              "user":"1234",
+              "user":"e5ea5a3e-94ed-4d6e-8399-8e5309468e50",
               "channel" :"Web",
               "action" :"add to cart",
               "product_data":searchText,
