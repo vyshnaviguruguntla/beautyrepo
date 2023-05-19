@@ -16,6 +16,7 @@ export class ProductSingleComponent implements OnInit {
   bearerToken: any;
   cartProduct:any;
   uuid: any;
+  mCoords : any;
 
   constructor(private http: HttpClient, private headerService: HeaderService,
     private toastr: ToastService, private router:Router) { }
@@ -29,6 +30,9 @@ export class ProductSingleComponent implements OnInit {
       this.productList = [];
       this.searchProducts(msg);
     });
+  
+   
+
   }
 
   getUUID4(){
@@ -80,6 +84,7 @@ export class ProductSingleComponent implements OnInit {
     })
   }
 
+
   /* Display products list */
 
   displayProducts() {
@@ -95,11 +100,16 @@ export class ProductSingleComponent implements OnInit {
 
   searchProducts(text: any) {
     let searchText = text;
+    let geoCoords:any = null;
+    this.headerService.currentApprovalStageMessage4.subscribe(msg => {
+      console.log("VALUE"+msg)
+      geoCoords = msg;
+    });
     this.searchProductsService(text).subscribe((res: any) => {
       this.productList = res['Hair Products'] ? res['Hair Products'] : res;
       console.log("SearchListProducts:", this.productList);
       // Trigger Rig on click of search fuctionality
-      this.getBearerToken(searchText,'search');
+      this.getBearerToken(searchText,'search',geoCoords);
     }, (err: any) => {
       console.log("error:", err);
     })
@@ -127,11 +137,11 @@ export class ProductSingleComponent implements OnInit {
     return this.http.post(url, body, options);
   }
 
-  getBearerToken(searchText:any,parm:any) {
+  getBearerToken(searchText:any,parm:any,geoCoords:any) {
     this.callBearerTokenService().subscribe((res: any) => {
       console.log("Bearer Token:", res);
       this.bearerToken = res.access_token
-      this.getRigResponse(searchText,parm);
+      this.getRigResponse(searchText,parm,geoCoords);
     }, (err: any) => {
       console.log("error:", err);
     })
@@ -139,13 +149,16 @@ export class ProductSingleComponent implements OnInit {
 
   /* Call Rig */
 
-  callRigService(searchText:any,parm:any) {
+  callRigService(searchText:any,parm:any,geoCoords:any) {
     const headers: any = [];
     headers['Content-Type'] = 'application/json'
     headers['Authorization'] = 'Bearer ' + this.bearerToken
     headers['cpaas-user-id'] = '123';
     let body:any;
     let url: any;
+
+    console.log(geoCoords)
+   
     if(parm === 'search'){
       body = JSON.stringify({
         "id": "e60e628b-2400-413e-b486-664a3d8bc752--11",
@@ -166,6 +179,10 @@ export class ProductSingleComponent implements OnInit {
               "query": searchText,
               "channel": "web",
               "action": "click on home search icon",
+              "location":{
+                "latitude":(geoCoords == null)? 0.0 :geoCoords.latitude,
+                "longtitude":(geoCoords == null)? 0.0 :geoCoords.longitude
+              },
               "refererpage": window.location.href,
               "device_type": navigator.appVersion,
               "sessionId":this.uuid
@@ -196,6 +213,10 @@ export class ProductSingleComponent implements OnInit {
               "user":"e5ea5a3e-94ed-4d6e-8399-8e5309468e50",
               "channel" :"Web",
               "action" :"add to cart",
+              "location":{
+                "latitude":(geoCoords == null)? 0.0 :geoCoords.latitude,
+                "longtitude":(geoCoords == null)? 0.0 :geoCoords.longitude
+              },
               "product_data":searchText,
               "quantity":1,
               "refererpage" :window.location.href,
@@ -214,8 +235,8 @@ export class ProductSingleComponent implements OnInit {
     return this.http.post(url, body, options);
   }
 
-  getRigResponse(searchText:any,parm:any){
-    this.callRigService(searchText,parm).subscribe((res: any) => {
+  getRigResponse(searchText:any,parm:any,geoCoords:any){
+    this.callRigService(searchText,parm,geoCoords).subscribe((res: any) => {
       console.log("Rig Response:", res);
       this.toastr.showSuccess('Event Triggered successfully','');
     }, (err: HttpErrorResponse) => {
@@ -227,8 +248,13 @@ export class ProductSingleComponent implements OnInit {
   addtoCart(selectedProduct:any){
     this.toastr.showSuccess('Product added Successfully','');
     console.log("selected product",selectedProduct);
+    let geoCoords:any;
     this.headerService.getCartItems(selectedProduct);
-    this.getBearerToken(selectedProduct,'addtoCart');
+      this.headerService.currentApprovalStageMessage4.subscribe(msg => {
+      console.log("VALUE"+msg)
+      geoCoords = msg;
+    });
+    this.getBearerToken(selectedProduct,'addtoCart',geoCoords);
     //this.router.navigate(['./cart']);
   }
 

@@ -5,8 +5,10 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class HeaderService {
+ 
 
   cartProducts:any = [];
+  geoCoords : any;
   private approvalStageMessage = new Subject();
   currentApprovalStageMessage = this.approvalStageMessage.asObservable();
 
@@ -17,6 +19,14 @@ export class HeaderService {
 
   private approvalStageMessage2 = new Subject();
   currentApprovalStageMessage2 = this.approvalStageMessage2.asObservable();
+
+  static approvalStageMessage3 = new Subject();
+  currentApprovalStageMessage3 = HeaderService.approvalStageMessage3.asObservable();
+
+
+  private approvalStageMessage4 = new Subject();
+  currentApprovalStageMessage4 = this.approvalStageMessage4.asObservable();
+
 
 
   constructor() { }
@@ -37,4 +47,13 @@ export class HeaderService {
     this.approvalStageMessage2.next(products)
   }
 
+  updateGeoLocation(geoCoords : any) {
+    console.log("updateGeoLocation",geoCoords.latitude)
+    this.approvalStageMessage4.next(geoCoords)
+  }
+
+  static updateGeoLocation(coords: any) {
+    console.log("static"+coords);
+    this.approvalStageMessage3.next(coords)
+  }
 }
