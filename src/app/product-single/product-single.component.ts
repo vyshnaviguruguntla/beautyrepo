@@ -170,7 +170,7 @@ export class ProductSingleComponent implements OnInit {
         "page_title": document.title,
         "location":{
           "latitude":(geoCoords == null)? 0.0 :geoCoords.latitude,
-          "longtitude":(geoCoords == null)? 0.0 :geoCoords.longitude
+          "longitude":(geoCoords == null)? 0.0 :geoCoords.longitude
         },
         "refererpage": window.location.href,
         "device_type": navigator.appVersion,
@@ -200,7 +200,7 @@ export class ProductSingleComponent implements OnInit {
               "page_title": document.title,
               "location":{
                 "latitude":(geoCoords == null)? 0.0 :geoCoords.latitude,
-                "longtitude":(geoCoords == null)? 0.0 :geoCoords.longitude
+                "longitude":(geoCoords == null)? 0.0 :geoCoords.longitude
               },
               "refererpage": window.location.href,
               "device_type": navigator.appVersion,
@@ -234,7 +234,7 @@ export class ProductSingleComponent implements OnInit {
               "action" :"add to cart",
               "location":{
                 "latitude":(geoCoords == null)? 0.0 :geoCoords.latitude,
-                "longtitude":(geoCoords == null)? 0.0 :geoCoords.longitude
+                "longitude":(geoCoords == null)? 0.0 :geoCoords.longitude
               },
               "product_data":searchText,
               "language": navigator.language,
