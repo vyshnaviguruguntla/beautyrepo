@@ -160,6 +160,22 @@ export class ProductSingleComponent implements OnInit {
     console.log(geoCoords)
    
     if(parm === 'search'){
+      window.analytics.track('SearchEvent', { //'SearchEvent' is event name in EB
+        "user": "e5ea5a3e-94ed-4d6e-8399-8e5309468e50",
+        "query": searchText,
+        "channel": "web",
+        "action": "search click from home page",
+        "results": this.productList,
+        "language": navigator.language,
+        "page_title": document.title,
+        "location":{
+          "latitude":(geoCoords == null)? 0.0 :geoCoords.latitude,
+          "longtitude":(geoCoords == null)? 0.0 :geoCoords.longitude
+        },
+        "refererpage": window.location.href,
+        "device_type": navigator.appVersion,
+        "sessionId":this.uuid
+      });
       body = JSON.stringify({
         "id": "e60e628b-2400-413e-b486-664a3d8bc752--11",
         "type": "server.request",
