@@ -179,6 +179,9 @@ export class ProductSingleComponent implements OnInit {
               "query": searchText,
               "channel": "web",
               "action": "click on home search icon",
+              "results": this.productList,
+              "language": navigator.language,
+              "page_title": document.title,
               "location":{
                 "latitude":(geoCoords == null)? 0.0 :geoCoords.latitude,
                 "longtitude":(geoCoords == null)? 0.0 :geoCoords.longitude
@@ -218,6 +221,8 @@ export class ProductSingleComponent implements OnInit {
                 "longtitude":(geoCoords == null)? 0.0 :geoCoords.longitude
               },
               "product_data":searchText,
+              "language": navigator.language,
+              "page_title": document.title,
               "quantity":1,
               "refererpage" :window.location.href,
               "device_type":navigator.appVersion, //session id should be included
