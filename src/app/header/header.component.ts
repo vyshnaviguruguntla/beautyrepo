@@ -29,6 +29,7 @@ ngOnInit(): void {
       //this.productList = [];
       this.geocoords = geocoords;
       console.log("geocoords___",geocoords)
+      this.headerService.updateGeoLocation(this.geocoords)
 
     });
 }
@@ -38,6 +39,7 @@ submit(){
     this.headerService.updateApprovalMessage(this.approvalText)
     if(this.geocoords != null)
     this.headerService.updateGeoLocation(this.geocoords)
+
 }
 
 addtoCart(){

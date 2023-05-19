@@ -17,11 +17,16 @@ export class ProductSingleComponent implements OnInit {
   cartProduct:any;
   uuid: any;
   mCoords : any;
+  geoCoords:any = null;
 
   constructor(private http: HttpClient, private headerService: HeaderService,
     private toastr: ToastService, private router:Router) { }
 
   ngOnInit(): void {
+    this.headerService.currentApprovalStageMessage4.subscribe(msg => {
+      console.log("VALUE"+msg)
+      this.geoCoords = msg;
+    });
     this.uuid = this.getUUID4();
     console.log("random ID:",this.uuid);
     this.displayProducts();
@@ -100,16 +105,11 @@ export class ProductSingleComponent implements OnInit {
 
   searchProducts(text: any) {
     let searchText = text;
-    let geoCoords:any = null;
-    this.headerService.currentApprovalStageMessage4.subscribe(msg => {
-      console.log("VALUE"+msg)
-      geoCoords = msg;
-    });
     this.searchProductsService(text).subscribe((res: any) => {
       this.productList = res['Hair Products'] ? res['Hair Products'] : res;
       console.log("SearchListProducts:", this.productList);
       // Trigger Rig on click of search fuctionality
-      this.getBearerToken(searchText,'search',geoCoords);
+      this.getBearerToken(searchText,'search',this.geoCoords);
     }, (err: any) => {
       console.log("error:", err);
     })
@@ -245,16 +245,13 @@ export class ProductSingleComponent implements OnInit {
     })
   }
 
-  addtoCart(selectedProduct:any){
+  addtoCart(selectedProduct:any){   
     this.toastr.showSuccess('Product added Successfully','');
     console.log("selected product",selectedProduct);
-    let geoCoords:any;
+  
     this.headerService.getCartItems(selectedProduct);
-      this.headerService.currentApprovalStageMessage4.subscribe(msg => {
-      console.log("VALUE"+msg)
-      geoCoords = msg;
-    });
-    this.getBearerToken(selectedProduct,'addtoCart',geoCoords);
+  
+    this.getBearerToken(selectedProduct,'addtoCart',this.geoCoords);
     //this.router.navigate(['./cart']);
   }
 
