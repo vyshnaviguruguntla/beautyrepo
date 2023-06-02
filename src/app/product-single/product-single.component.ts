@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { HeaderService } from '../header/header.service';
 import { ToastService } from '../toaster/toast.service';
 import { Router } from '@angular/router';
+import { time } from 'console';
 @Component({
   selector: 'app-product-single',
   templateUrl: './product-single.component.html',
@@ -16,6 +17,7 @@ export class ProductSingleComponent implements OnInit {
   bearerToken: any;
   cartProduct:any;
   uuid: any;
+  uniqueId: any;
   mCoords : any;
   geoCoords:any = null;
 
@@ -46,6 +48,10 @@ export class ProductSingleComponent implements OnInit {
       const v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
+  }
+
+  uniqueID() {
+    return Math.floor(Math.random() * Date.now()).toString(16)
   }
 
   fetchProducts() {
@@ -105,6 +111,7 @@ export class ProductSingleComponent implements OnInit {
 
   searchProducts(text: any) {
     let searchText = text;
+    this.uniqueId = this.uniqueID()
     this.searchProductsService(text).subscribe((res: any) => {
       this.productList = res['Hair Products'] ? res['Hair Products'] : res;
       console.log("SearchListProducts:", this.productList);
@@ -156,7 +163,6 @@ export class ProductSingleComponent implements OnInit {
     headers['cpaas-user-id'] = '123';
     let body:any;
     let url: any;
-
     console.log(geoCoords)
    
     if(parm === 'search'){
@@ -174,7 +180,8 @@ export class ProductSingleComponent implements OnInit {
         },
         "refererpage": window.location.href,
         "device_type": navigator.appVersion,
-        "sessionId":this.uuid
+        "sessionId":this.uuid,
+        "uniqueId": this.uniqueId
       });
       body = JSON.stringify({
         "id": "e60e628b-2400-413e-b486-664a3d8bc752--11",
@@ -204,11 +211,13 @@ export class ProductSingleComponent implements OnInit {
               },
               "refererpage": window.location.href,
               "device_type": navigator.appVersion,
-              "sessionId":this.uuid
+              "sessionId":this.uuid,
+              "uniqueId": this.uniqueId
             }
           }
         }
       })
+      localStorage.setItem("uniqueId", this.uniqueId);
       //cip demo
       //url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/xaas/enabler/producer/1.0.0/publish"
       //cip old
@@ -242,7 +251,8 @@ export class ProductSingleComponent implements OnInit {
               "quantity":1,
               "refererpage" :window.location.href,
               "device_type":navigator.appVersion, //session id should be included
-              "sessionId":this.uuid
+              "sessionId":this.uuid,
+              "uniqueId": this.uniqueId ? this.uniqueId : ""
             }
           }
         }
