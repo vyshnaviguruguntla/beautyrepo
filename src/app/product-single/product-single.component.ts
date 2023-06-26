@@ -127,19 +127,9 @@ export class ProductSingleComponent implements OnInit {
   callBearerTokenService() {
     const headers: any = [];
     headers['Content-Type'] = 'application/x-www-form-urlencoded'
-    //cip demo
-    //headers['Authorization'] = 'Basic UjVwX1NrM0M0TU55dEs5V1NBbnFqNm0ySUxvYTpfZV9jeHF4VHlzdGdCRFpzVGdRb1QyZVV4OUVh'
-    //cip old
-    headers['Authorization'] = 'Basic VXZ4MGxlTkM2QjBpeUVVbFZ4dWVRUUhxMFBnYTpYNVk2ZU5INHlUUTlDOFJOcnlqZkptaHJoc0lh'
-    //headers['recognition-identity-id'] = 'b95548f7deeea93bc0abeaade6597433'
-    //cip demo
-    //const body ='grant_type=password&username=dir/experiencebuilder@cipdemo.accenture.com@cipdemo.accenture.com&password=Digitalinsurance786#&scope=PRODUCTION'
-    //cip old
-    const body = 'grant_type=password&username=dir/experiencebuilder@cip.accenture.com@cip.accenture.com&password=Digitalinsurance786#&scope=PRODUCTION'
-    //cip demo url
-    //const url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/platform/enabler/iam/token/1.0.0/token"
-    //cip old url
-    const url = "https://cip-1621266427-iam-sit.aipacn.com/platform/enabler/iam/token/1.0.0/token"
+    headers['Authorization'] = 'Basic MEgyVmpYWHRPYkVGYXZ3NFFqc0VVa3ROUTRnYTo4VUgwRnBPZW1QRHY3dnVkSXVuRkpFV05LaGth'
+    const body = 'grant_type=client_credentials&username=dir/experiencebuilder@songcomm04.accenture.com@songcomm04.accenture.com&password=HDtes!1urdc&scope=PRODUCTION'
+    const url = "https://songcomm04-1685353139-iam-sit.aipacn.com/platform/enabler/iam/token/1.0.0/token"
     const options = { headers: new HttpHeaders(headers) }
     return this.http.post(url, body, options);
   }
@@ -166,8 +156,8 @@ export class ProductSingleComponent implements OnInit {
     console.log(geoCoords)
    
     if(parm === 'search'){
-      window.analytics.track('SearchEvent', { //'SearchEvent' is event name in EB
-        "user": "e5ea5a3e-94ed-4d6e-8399-8e5309468e50",
+      window.analytics.track('SearchEvent', { 
+        "user": "14d224f7-844d-4975-9dde-a00f6f4f05f2",
         "query": searchText,
         "channel": "web",
         "action": "search click from home page",
@@ -190,15 +180,11 @@ export class ProductSingleComponent implements OnInit {
         "source": "rig",
         "contenttype": "application/json",
         "deo": {
-          //cip demo
-          //"eventIdentifier": "NjQ0NjY4MWY4OWI5NzUwMDE3ZTUwZTlh-NjQ0NjY3NDk4OWI5NzUwMDE3ZTUwZTVk",//comb of journey id and event id
-          //"projectName": "Commerce",
-          "projectName":"commerce",
+          "eventIdentifier": "NjQ4OTU1ZWEyYWI3YjYwMDE4YjUyYTYy-NjQ4OTUyYmYyYWI3YjYwMDE4YjUyOTdh",
+		      "projectName": "commerce",
           "event": {
-            //cip old
-            "eventName": "SearchEvent",
             "eventData": {
-              "user": "e5ea5a3e-94ed-4d6e-8399-8e5309468e50",
+              "user": "14d224f7-844d-4975-9dde-a00f6f4f05f2",
               "query": searchText,
               "channel": "web",
               "action": "click on home search icon",
@@ -218,10 +204,7 @@ export class ProductSingleComponent implements OnInit {
         }
       })
       localStorage.setItem("uniqueId", this.uniqueId);
-      //cip demo
-      //url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/xaas/enabler/producer/1.0.0/publish"
-      //cip old
-      url = "https://cip-1621266427-iam-sit.aipacn.com/xaas/enabler/rigevent/1.0.0/publish"
+      url = "https://songcomm04-1685353139-iam-sit.aipacn.com/xaas/enabler/producer/1.0.0/publish"
     }else { //parm is addtocart
       body = JSON.stringify({
         "id": "e60e628b-2400-413e-b486-664a3d8bc752--11",
@@ -230,15 +213,11 @@ export class ProductSingleComponent implements OnInit {
         "source": "rig",
         "contenttype": "application/json",
         "deo": {
-          //cip demo
-          //"eventIdentifier": "NjQ0NjY4MWY4OWI5NzUwMDE3ZTUwZTlh-NjQ0YTFlMDk4OWI5NzUwMDE3ZTUxNzNk",//comb of journey id and event id
-          //"projectName": "Commerce",
+          "eventIdentifier": "NjQ4OTU1ZWEyYWI3YjYwMDE4YjUyYTYy-NjQ4OTUyOWUyYWI3YjYwMDE4YjUyOTZl",
           "projectName":"commerce",
           "event": {
-            //cip old
-            "eventName": "AddToCartEvent",
             "eventData": {
-              "user":"e5ea5a3e-94ed-4d6e-8399-8e5309468e50",
+              "user": "14d224f7-844d-4975-9dde-a00f6f4f05f2",
               "channel" :"Web",
               "action" :"add to cart",
               "location":{
@@ -250,17 +229,14 @@ export class ProductSingleComponent implements OnInit {
               "page_title": document.title,
               "quantity":1,
               "refererpage" :window.location.href,
-              "device_type":navigator.appVersion, //session id should be included
+              "device_type":navigator.appVersion,
               "sessionId":this.uuid,
               "uniqueId": this.uniqueId ? this.uniqueId : ""
             }
           }
         }
       })
-      //cip demo
-      //url = "https://cipdemo-1643214451-iam-sit.cognitiveinsurance.accenture.com/xaas/enabler/rigevent/1.0.0/publish"
-      //cip old
-      url = "https://cip-1621266427-iam-sit.aipacn.com/xaas/enabler/rigevent/1.0.0/publish"
+      url = "https://songcomm04-1685353139-iam-sit.aipacn.com/xaas/enabler/producer/1.0.0/publish"
     }
     const options = { headers: new HttpHeaders(headers) }
     return this.http.post(url, body, options);
@@ -283,7 +259,6 @@ export class ProductSingleComponent implements OnInit {
     this.headerService.getCartItems(selectedProduct);
   
     this.getBearerToken(selectedProduct,'addtoCart',this.geoCoords);
-    //this.router.navigate(['./cart']);
   }
 
 }
